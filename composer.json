@@ -23,7 +23,8 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Ciastek92\\RepositoryMaker\\": "packages/ciastek92/repository-maker/src"
         }
     },
     "autoload-dev": {

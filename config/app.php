@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Ciastek92\RepositoryMaker\RepositoryMakerServiceProvider::class,
 
         /*
          * Application Service Providers...

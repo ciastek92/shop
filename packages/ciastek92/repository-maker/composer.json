@@ -1,0 +1,12 @@
+{
+    "name": "ciastek92/repository-maker",
+    "description": "Make basic repository maker from command and with contract.",
+    "authors": [
+        {
+            "name": "Maciej Maciaszek",
+            "email": "92maciej.maciaszek@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
