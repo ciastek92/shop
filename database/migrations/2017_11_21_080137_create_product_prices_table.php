@@ -15,9 +15,9 @@ class CreateProductPricesTable extends Migration
     {
         Schema::create('product_prices', function (Blueprint $table) {
             $table->integer('product_id');
-            $table->string('type');
+            $table->integer('type_id')->unsigned();
             $table->integer('price');
-            $table->primary('product_id', 'type');
+            $table->primary('product_id', 'type_id');
             $table->timestamps();
         });
     }

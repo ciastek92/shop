@@ -10,4 +10,9 @@ class ProductPrices extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function type()
+    {
+        return $this->hasOne(ProductPriceTypes::class);
+    }
 }

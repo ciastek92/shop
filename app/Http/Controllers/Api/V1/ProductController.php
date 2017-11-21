@@ -4,28 +4,24 @@ namespace App\Http\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\ProductRepository;
 use Illuminate\Http\Request;
+use App\Http\Resources\Product as ProductResource;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
 
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->repository = $productRepository;
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
-    public function create()
+    public function index()
     {
-        //
+        return new ProductResource($this->repository->getPaginate(10));
     }
 
     /**
@@ -36,18 +32,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->repository->store($request->get('product'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
     public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
     /**
