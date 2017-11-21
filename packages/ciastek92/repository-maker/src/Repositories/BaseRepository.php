@@ -1,9 +1,11 @@
 <?php
+
 namespace Ciastek92\RepositoryMaker\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Container\Container as Application;
 
-class BaseRepository
+abstract class BaseRepository
 {
     /**
      * The Model name.
@@ -11,6 +13,20 @@ class BaseRepository
      * @var \Illuminate\Database\Eloquent\Model;
      */
     protected $model;
+
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    abstract public function model();
+
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+        $this->makeModel();
+    }
+
     /**
      * Paginate the given query.
      *
@@ -18,10 +34,11 @@ class BaseRepository
      *
      * @return mixed
      */
-    public function getPaginate($n)
+    public function getPaginate($n = null)
     {
         return $this->model->paginate($n);
     }
+
     /**
      * Create a new model and return the instance.
      *
@@ -33,6 +50,7 @@ class BaseRepository
     {
         return $this->model->create($inputs);
     }
+
     /**
      * FindOrFail Model and return the instance.
      *
@@ -46,6 +64,7 @@ class BaseRepository
     {
         return $this->model->findOrFail($id);
     }
+
     /**
      * Update the model in the database.
      *
@@ -56,6 +75,7 @@ class BaseRepository
     {
         $this->getById($id)->update($inputs);
     }
+
     /**
      * Delete the model from the database.
      *
@@ -66,5 +86,18 @@ class BaseRepository
     public function destroy($id)
     {
         $this->getById($id)->delete();
+    }
+
+    /**
+     * @return Model
+     * @throws \Exception
+     */
+    public function makeModel()
+    {
+        $model = $this->app->make($this->model());
+        if (!$model instanceof Model) {
+            throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+        }
+        return $this->model = $model;
     }
 }

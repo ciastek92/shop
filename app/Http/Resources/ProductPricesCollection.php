@@ -15,10 +15,9 @@ class ProductPricesCollection extends Resource
     public function toArray($request)
     {
         return [
-            'prices' => [
                 'type' => $this->type->name,
                 'price' => $this->price,
-            ],
+
         ];
     }
 }

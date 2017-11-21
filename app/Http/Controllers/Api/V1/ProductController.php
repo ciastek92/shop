@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Http\Api\V1\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\ProductRepository;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product as ProductResource;
 
 class ProductController extends Controller
 {
+
+    /**
+     * @var ProductRepository
+     */
+    private $repository;
 
     public function __construct(ProductRepository $productRepository)
     {
@@ -21,7 +26,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return new ProductResource($this->repository->getPaginate(10));
+        return ProductResource::collection($this->repository->getPaginate());
     }
 
     /**

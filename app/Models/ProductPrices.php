@@ -13,6 +13,6 @@ class ProductPrices extends Model
 
     public function type()
     {
-        return $this->hasOne(ProductPriceTypes::class);
+        return $this->belongsTo(ProductPriceTypes::class);
     }
 }

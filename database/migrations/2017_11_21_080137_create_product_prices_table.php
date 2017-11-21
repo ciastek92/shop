@@ -17,7 +17,7 @@ class CreateProductPricesTable extends Migration
             $table->integer('product_id');
             $table->integer('type_id')->unsigned();
             $table->integer('price');
-            $table->primary('product_id', 'type_id');
+            $table->primary(['product_id', 'type_id']);
             $table->timestamps();
         });
     }
