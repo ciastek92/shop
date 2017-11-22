@@ -16,8 +16,6 @@ class ProductRepository extends BaseRepository
         $product->prices()->createMany($inputs['prices']);
 
         $product->save();
-
-
     }
 
     public function model()

@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         Ciastek92\RepositoryMaker\RepositoryMakerServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
