@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @return ProductResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -32,10 +33,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreProductRequest  $request
+     * @return
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         return $this->repository->store($request->get('product'));
     }

@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiTrait;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+    use ApiTrait;
     /**
      * A list of the exception types that are not reported.
      *
@@ -31,7 +33,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -42,12 +44,28 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
+        if ($this->isApiCall($request)) {
+            $response = [
+                'error' => 'Sorry, something went wrong.'
+            ];
+            // If the app is in debug mode
+            if (config('app.debug')) {
+                $response['exception'] = get_class($exception); // Reflection might be better here
+                $response['message'] = $exception->getMessage();
+            }
+            $status = 400;
+            if ($exception instanceof \HttpException) {
+                // Grab the HTTP status code from the Exception
+                $status = $exception->getCode();
+            }
+            return response()->json($response, $status);
+        }
         return parent::render($request, $exception);
     }
 }

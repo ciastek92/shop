@@ -13,7 +13,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,17 +24,19 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'product' =>'required|array',
+            'product' => 'required|array',
             'product.name' => 'required',
             'product.description' => 'required|max:255',
             'product.prices' => 'required|array',
         ];
 
-          foreach($this->request->get('product.prices') as $key => $val)
-          {
-              $rules['product.prices.'.$key . 'type'] = 'required|integer';
-              $rules['product.prices.'.$key . 'price'] = 'required|integer';
-          }
+        if ($this->request->get('product.prices')) {
+            foreach ($this->request->get('product.prices') as $key => $val) {
+                $rules['product.prices.' . $key . 'type_id'] = 'required|integer';
+                $rules['product.prices.' . $key . 'price'] = 'required|integer';
+            }
+        }
 
+        return $rules;
     }
 }
