@@ -121,6 +121,28 @@ class ProductTest extends ApiTest
         ]);
     }
 
+    public function test_if_products_are_deleted_correctly()
+    {
+        $product = factory(Product::class)->create([
+            'name' => 'Apple',
+            'description' => 'Apple is red and round',
+        ]);
+        $productPrice = factory(ProductPrices::class)->create([
+            'type_id' => $this->getProductPriceType()->id, 'price' => '2454', 'product_id' => $product->id]);
+
+        $response = $this->json('DELETE', '/api/product/' . $product->id)
+            ->assertStatus(204);
+
+        $this->assertDatabaseMissing('products', [
+            'name' => 'Apple',
+            'description' => 'Apple is red and round',
+        ]);
+        $this->assertDatabaseMissing('product_prices', [
+            'product_id' => $product->id,
+            'type_id' => $this->getProductPriceType()->id
+        ]);
+    }
+
 
     private function getProductPriceType($element = 0): ProductPriceTypes
     {
