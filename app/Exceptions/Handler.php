@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Traits\ApiTrait;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +51,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+//        if (\App::environment() == 'testing') {
+//            throw $exception;
+//        }
         if ($this->isApiCall($request)) {
             $response = [
                 'error' => 'Sorry, something went wrong.'
@@ -64,6 +68,15 @@ class Handler extends ExceptionHandler
                 // Grab the HTTP status code from the Exception
                 $status = $exception->getCode();
             }
+            if ($exception instanceof ValidationException) {
+                //add validation exception
+                $status = 422;
+                $response['errors'] = $exception->errors();
+//                var_dump($exception->errors()   );
+            }
+//            var_dump($exception->getMessage());
+//            var_dump($exception->getLine());
+//            var_dump($exception->getFile());
             return response()->json($response, $status);
         }
         return parent::render($request, $exception);

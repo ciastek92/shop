@@ -73,7 +73,7 @@ abstract class BaseRepository
      */
     public function update($id, array $inputs)
     {
-        $this->getById($id)->update($inputs);
+        return $this->getById($id)->update($inputs);
     }
 
     /**

@@ -33,18 +33,24 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  StoreProductRequest  $request
+     * @param  StoreProductRequest $request
      * @return
      */
     public function store(StoreProductRequest $request)
     {
-        return $this->repository->store($request->get('product'));
+        $createdProduct = $this->repository->store($request->get('product'));
+        if (!$createdProduct instanceof Product) {
+            throw new \Exception('Not an correct Product instance');
+        }
+        ProductResource::withoutWrapping();
+        $pr = new ProductResource($createdProduct);
+        return $pr;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Product $product
      * @return ProductResource
      */
     public function show(Product $product)
@@ -53,32 +59,23 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
+     * @param StoreProductRequest $request
+     * @param Product $product
+     * @return ProductResource
+     * @throws \Exception
      */
-    public function edit(Product $product)
+    public function update(StoreProductRequest $request, Product $product)
     {
-        //
-    }
+        $updatedProduct = $this->repository->update($product->id, $request->get('product'));
+        ProductResource::withoutWrapping();
+        return new ProductResource($updatedProduct);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)

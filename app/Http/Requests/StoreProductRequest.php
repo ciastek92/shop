@@ -30,13 +30,25 @@ class StoreProductRequest extends FormRequest
             'product.prices' => 'required|array',
         ];
 
-        if ($this->request->get('product.prices')) {
-            foreach ($this->request->get('product.prices') as $key => $val) {
-                $rules['product.prices.' . $key . 'type_id'] = 'required|integer';
-                $rules['product.prices.' . $key . 'price'] = 'required|integer';
+        if (isset($this->request->get('product')['prices'])) {
+            foreach ($this->request->get('product')['prices'] as $key => $val) {
+                $rules['product.prices.' . $key . '.type_id'] = 'required|integer';
+                $rules['product.prices.' . $key . '.price'] = 'required|integer';
             }
         }
 
         return $rules;
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'product.prices.required' => 'The :attribute field is required.',
+        ];
     }
 }
