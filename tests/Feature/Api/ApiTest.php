@@ -4,10 +4,16 @@ namespace Tests\Feature\Api;
 
 use App\Models\ProductPriceTypes;
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 abstract class ApiTest extends TestCase
 {
+    use DatabaseMigrations;
+    use DatabaseTransactions;
+
     /**
      * @var User
      */

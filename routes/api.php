@@ -18,3 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('product', 'ProductController');
+Route::group(['prefix'=>'product/{product}/price', 'namespace'=>'Product'], function(){
+    Route::post('', 'ProductPricesController@store');
+    Route::put('/{type}', 'ProductPricesController@update');
+    Route::delete('/{type}', 'ProductPricesController@destroy');
+    Route::get('', 'ProductPricesController@index');
+});

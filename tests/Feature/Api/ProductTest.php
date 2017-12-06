@@ -5,14 +5,9 @@ namespace Tests\Feature\Api;
 use App\Models\Product;
 use App\Models\ProductPrices;
 use App\Models\ProductPriceTypes;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProductTest extends ApiTest
 {
-    use DatabaseMigrations;
-    use DatabaseTransactions;
-
     protected $productPriceTypes;
 
     public function setUp()
