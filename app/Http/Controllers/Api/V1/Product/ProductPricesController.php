@@ -72,14 +72,13 @@ class ProductPricesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ProductPrices $price
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param $productPriceTypesId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(ProductPrices $price)
+    public function destroy(Product $product, $productPriceTypesId)
     {
-        $price->delete();
+        $this->repository->deletePrice($product, $productPriceTypesId);
         return response()->json(['message'=>'deleted successfully'],204);
     }
 }

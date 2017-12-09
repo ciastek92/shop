@@ -42,12 +42,28 @@ class ProductPriceRepository extends BaseRepository
         ProductPriceTypes::findOrFail($productPriceTypesId);
 
         $productPrice = $product->prices()->where('type_id', $productPriceTypesId)->first();
-        if(!$productPrice){
+        if (!$productPrice) {
             throw new \Exception('Could\'n find price of this type within that product');
         }
         $productPrice->price = $inputs['price'];
         $productPrice->save();
         return $productPrice;
+    }
+
+    /**
+     * @param Product $product
+     * @param int $productPriceTypesId
+     * @return bool
+     * @throws \Exception
+     */
+    public function deletePrice(Product $product, int $productPriceTypesId)
+    {
+        ProductPriceTypes::findOrFail($productPriceTypesId);
+        $productPrice = $product->prices()->where('type_id', $productPriceTypesId)->first();
+        if (!$productPrice) {
+            throw new \Exception('Could\'n find price of this type within that product');
+        }
+        return $productPrice->delete();
     }
 
     public function model()
