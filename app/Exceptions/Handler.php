@@ -73,12 +73,7 @@ class Handler extends ExceptionHandler
                 //add validation exception
                 $status = 422;
                 $response['errors'] = $exception->errors();
-                var_dump($exception->errors()   );
             }
-
-            var_dump($exception->getMessage());
-            var_dump($exception->getLine());
-            var_dump($exception->getFile());
             return response()->json($response, $status);
         }
         return parent::render($request, $exception);
